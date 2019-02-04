@@ -23,7 +23,7 @@ let game = (p) => {
   };
 
   p.draw = () => {
-    p.stroke(0);
+    p.stroke(180);
     p.fill(10, 30, 15);
     p.rect(boardX, boardY, 202, 402, 5);
 
@@ -42,19 +42,14 @@ let game = (p) => {
       }
     }
 
-    //Then, draw the current block
-
-    // let bl = player.block;
-    // for (var y = 0; y < shape.shapes[bl].length; y++) {
-    //   for (var x = 0; x < shape.shapes[bl][y].length; x++) {
-    //     if (shape.shapes[bl][y][x] != 0) {
-    //       p.stroke(20, 35, 80);
-    //       p.fill(40, 70, 160);
-    //       p.rect(boardX + 2 + x*20 + player.x*20, boardY + 2 + y*20 + player.y*20, 18, 18, 4);
-    //     }
-    //   }
-    // }
+    //Draw the player's tetromino
     player.draw(p, boardX, boardY);
+
+    //Then draw the next one
+    p.stroke(180);
+    p.fill(10, 30, 15);
+    p.rect(20, 20, 90, 60, 5);
+    player.draw(p, 25, 30, true);
 
   };
 

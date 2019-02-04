@@ -19,6 +19,8 @@ export class GameScreen {
 
   imprintShape(index, rotation, playerX, playerY) {
     let currentShape = shape.giveShape(index, rotation);
+
+    //First, add the shape.
     for (var y = 0; y < currentShape.length; y++) {
       for (var x = 0; x < currentShape[y].length; x++) {
         if (currentShape[y][x] != 0) {
@@ -26,6 +28,9 @@ export class GameScreen {
         }
       }
     }
+
+    //Then see if any lines need to be removed.
+    this.checkLines();
   }
 
   changeLevel() {

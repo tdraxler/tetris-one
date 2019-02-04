@@ -11,6 +11,7 @@ export class Player {
     this.x = 4;
     this.y = 0;
     this.block = getRandomInt(0, 6);
+    this.nextBlock = getRandomInt(0, 6);
     this.rotate = 0; //rotation index ranges from 0 to 3
   }
 
@@ -91,22 +92,39 @@ export class Player {
     this.x = 4;
     this.y = 0;
     this.rotate = 0;
-    this.block = getRandomInt(0, 6);
+    this.block = this.nextBlock;
+    this.nextBlock = getRandomInt(0, 6);
   }
 
-  draw(p, boardX, boardY) {
-    //TODO
-    let tetromino = shape.giveShape(this.block, this.rotate);
+  draw(p, boardX, boardY, drawNext=false) {
 
-    for (var y = 0; y < tetromino.length; y++) {
-      for (var x = 0; x < tetromino[y].length; x++) {
-        if (this.y + y >= 4 && tetromino[y][x] != 0) {
-          p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
-          p.fill(colors[1].red, colors[1].green, colors[1].blue);
-          p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
+    //Give a different rotation value if we're drawing the normal shape or the next one
+    let tetromino = shape.giveShape((drawNext ? this.nextBlock : this.block), (drawNext ? 1 : this.rotate));
+
+    if (drawNext === true) {
+      let xOffset = this.block === 2 ? 10: 0; //Offset the x draw value different if we've got the long tetromino
+      for (var y = 0; y < tetromino.length; y++) {
+        for (var x = 0; x < tetromino[y].length; x++) {
+          if (tetromino[y][x] != 0) {
+            p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
+            p.fill(colors[1].red, colors[1].green, colors[1].blue);
+            p.rect(boardX + x*20 + xOffset, boardY + y*20, 18, 18, 4);
+          }
         }
       }
     }
+    else {
+      for (var y = 0; y < tetromino.length; y++) {
+        for (var x = 0; x < tetromino[y].length; x++) {
+          if (this.y + y >= 4 && tetromino[y][x] != 0) {
+            p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
+            p.fill(colors[1].red, colors[1].green, colors[1].blue);
+            p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
+          }
+        }
+      }
+    }
+
   }
 
 };
