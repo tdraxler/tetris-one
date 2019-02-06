@@ -1,7 +1,2 @@
-This is a simple server app using Express, Webpack, React, Babel, and more.
-The purpose of it is to be a template for various projects.
-
-Express: I like using this for routing with Node.js
-Webpack: Good for bundling all my scripts into a single file
-Babel: I've found ES6 (and beyond) features to be very helpful and convenient with JavaScript
-React: Great for making web apps and working with the DOM.
+This is my first attempt at making a Tetris clone using JavaScript.
+My priority isn't to make it look pretty, but make sure it functions well and is modular (that is, can easily be put into another web page)

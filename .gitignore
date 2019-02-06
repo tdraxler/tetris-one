@@ -1,3 +1,6 @@
 node_modules
 bundle.js
 p5.min.js
+
+**/public/game.js
+**/public/app.js

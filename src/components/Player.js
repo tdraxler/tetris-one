@@ -10,7 +10,7 @@ export class Player {
   constructor() {
     this.x = 4;
     this.y = 0;
-    this.block = getRandomInt(0, 6);
+    this.block = 4;//getRandomInt(0, 6);
     this.nextBlock = getRandomInt(0, 6);
     this.rotate = 0; //rotation index ranges from 0 to 3
   }
@@ -59,28 +59,24 @@ export class Player {
   }
 
   rotateShape(board) {
-    //First, check for a collision with the possible new shape.
-    let nextRot = this.rotate - 1 < 0 ? 3 : this.rotate - 1;
-    let nextShape = shape.giveShape(this.block, nextRot);
+    // //First, check for a collision with the possible new shape.
+    // let nextRot = this.rotate - 1 < 0 ? 3 : this.rotate - 1;
+    // let nextShape = shape.giveShape(this.block, nextRot);
 
-    //Have to offset the next x, y values if there's a rotation.
-    let tempX = (nextRot === 1 || nextRot === 3) ? -1 : 1;
-    let tempY = (nextRot === 1 || nextRot === 3) ? 1 : -1;
+    // //Have to offset the next x, y values if there's a rotation.
+    // let tempX = (nextRot === 1 || nextRot === 3) ? -1 : 1;
+    // let tempY = (nextRot === 1 || nextRot === 3) ? 1 : -1;
+    let newValues = shape.getRotateOffsetCoords(this.block, this.rotate);
+    //console.log(newValues);
+    let nextShape = shape.giveShape(this.block, newValues[0]);
 
-
-    if (!this.collisionDetected(nextShape, board, tempX, tempY) ) {
-      this.rotate--;
-      if (this.rotate < 0) this.rotate = 3;
-      if (this.rotate === 1 || this.rotate === 3) {
-        this.x--;
-        this.y++;
-      } else {
-        this.x++;
-        this.y--;
-      }
+    if (this.rotate != newValues[0] && !this.collisionDetected(nextShape, board, newValues[1], newValues[2]) ) {
+      this.rotate = newValues[0];
+      this.x += newValues[1];
+      this.y += newValues[2];
     }
     else {
-
+      //
     }
 
   }
