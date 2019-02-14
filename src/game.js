@@ -2,14 +2,15 @@ import * as p5 from './p5.min.js';
 import GameScreen from './components/GameScreen';
 import Player from './components/Player';
 import Shapes from './components/Shapes';
+import KeyboardHandler from './components/KeyboardHandler';
 import { colors } from './components/Colors';
-import { increaseValue } from './components/IncreaseValue';
 
 let game = (p) => {
 
   let gameBoard = new GameScreen();
   let player = new Player();
   let shape = new Shapes();
+  let keyboardHandler = new KeyboardHandler();
   let mode = "playing";
   //The game modes determine what is visible, and what keyboard input can be taken.
   // 'playing': normal play. The player can move and rotate shapes.
@@ -20,12 +21,12 @@ let game = (p) => {
 
   const boardX = 212;
   const boardY = 20;
-  const keyDelayTime = 10;
+  const keyDelayTime = 8;
 
-  setInterval(() => {
-    keyTimer = keyTimer < keyDelayTime ? keyTimer + 1 : keyTimer;
-    if (keyTimer === keyDelayTime) keyPressReady = true;
-  }, 10);
+  // setInterval(() => {
+  //   keyTimer = keyTimer < keyDelayTime + 20 ? keyTimer + 1 : keyTimer;
+  //   if (keyTimer === keyDelayTime) keyPressReady = true;
+  // }, 10);
 
   p.setup = () => {
     p.createCanvas(640, 480).parent('tetris-view');
@@ -62,30 +63,8 @@ let game = (p) => {
     p.rect(20, 20, 90, 60, 5);
     player.draw(p, 25, 30, true);
 
-    if (p.keyIsPressed) {
-      if (keyPressReady === true) {
-        if (p.keyIsDown(p.ENTER)) {
-          console.log(keyTimer);
-        }
-        else if (p.keyIsDown(p.LEFT_ARROW)) {
-          player.move(gameBoard, "left");
-        }
-        else if (p.keyIsDown(p.DOWN_ARROW)) {
-          player.move(gameBoard, "down");
-        }   
-        else if (p.keyIsDown(p.RIGHT_ARROW)) {
-          player.move(gameBoard, "right");
-        }
-        else if (p.keyIsDown(32)) {
-          player.rotateShape(gameBoard);
-        }
-        keyTimer = 0;
-        keyPressReady = false;
-      }
-    } else {
-      if (!keyPressReady) console.log("nothing is being pressed.");
-      keyPressReady = true;
-    }
+    keyboardHandler.checkKeys(p, player, gameBoard);
+
 
 
     if (mode === 'line removal') {
@@ -96,23 +75,6 @@ let game = (p) => {
 
   };
 
-  // p.keyPressed = () => {
-  //   if (mode === 'playing') {
-  //     if (p.keyCode === p.DOWN_ARROW) {
-  //       player.move(gameBoard, "down");
-  //     }
-  //     if (p.keyCode === p.LEFT_ARROW) {
-  //       player.move(gameBoard, "left");
-  //     }
-  //     if (p.keyCode === p.RIGHT_ARROW) {
-  //       player.move(gameBoard, "right");
-  //     }
-  //     if (p.keyCode === 32) {
-  //       player.rotateShape(gameBoard);
-  //     }
-  //   }
-  //   return false;
-  // };
 };
 
 const tetris = new p5(game);
