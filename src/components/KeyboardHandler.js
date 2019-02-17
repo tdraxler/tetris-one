@@ -19,20 +19,18 @@ for (var i = 0; i < trackedKeys; i++) {
   keyHandlers.push({
     keyTimer: 0,
     keyPressReady: false,
-    keyDelayTime: i === 3 ? 50 : 25
+    keyDelayTime: i === 3 ? 40 : 20
   });
 }
 
 for (var i = 0; i < trackedKeys; i++) {
   console.log("Setting up keyHandlers index " + i);
   console.log(i);
-  var intervalLength = 10;
-  if (i === 3) intervalLength = 20; //slow down checking time for rotate key.
 
   setInterval(() => {
     keyHandlers.forEach((handler) => {
       handler.keyTimer = handler.keyTimer < handler.keyDelayTime + 20 ? handler.keyTimer + 1 : handler.keyTimer;
-      if (handler.keyTimer === handler.keyDelayTime) handler.keyPressReady = true;
+      if (handler.keyTimer >= handler.keyDelayTime) handler.keyPressReady = true;
     });
   }, 10);
 }
@@ -67,43 +65,30 @@ export class KeyboardHandler {
   constructor() {
     console.log(keyHandlers);
   }
+
   checkKeys(p, playerObject, gameBoard) {
-    if (keyHandlers && p.keyIsPressed) {
+    if (keyHandlers) { //&& p.keyIsPressed) {
       for (var i = 0; i < trackedKeys; i++) {
-        if (keyHandlers[i].keyPressReady === true) {
-          if (p.keyIsDown(keyMap[i])) {
+        //if (keyHandlers[i].keyPressReady === true) {
+        if (p.keyIsDown(keyMap[i])) {
+          if (keyHandlers[i].keyPressReady === true) {
             actionMap(i, playerObject, gameBoard);
-            if (keyHandlers[i].keyTimer > keyHandlers[i].keyDelayTime + 3) keyHandlers[i].keyTimer = -20;
+            if (keyHandlers[i].keyTimer > keyHandlers[i].keyDelayTime + 10) keyHandlers[i].keyTimer = -90;
             else keyHandlers[i].keyTimer = 0;
             keyHandlers[i].keyPressReady = false;
           }
-          else {
-            keyHandlers[i].keyPressReady = true;
-          }
         }
-
-        // if (p.keyIsDown(37)) {
-        //   playerObject.move(gameBoard, "left");
+        else {
+          keyHandlers[i].keyTimer = keyHandlers[i].keyDelayTime + 20;
+          keyHandlers[i].keyPressReady = true;
+        }
+        // if (i === 3) {
+        //   console.log("Current keytimer: " + keyHandlers[i].keyTimer);
+        //   console.log("Current keyPressReady value: " + keyHandlers[i].keyPressReady);
         // }
-        // if (p.keyIsDown(40)) {
-        //   playerObject.move(gameBoard, "down");
-        // }   
-        // if (p.keyIsDown(39)) {
-        //   playerObject.move(gameBoard, "right");
-        // }
-        // if (p.keyIsDown(32)) {
-        //   playerObject.rotateShape(gameBoard);
-        // }
-
-        // if (keyTimer > keyDelayTime + 3) keyTimer = -10;
-        // else keyTimer = 0;
-        // keyPressReady = false;
+        //}
       }
     } 
-    // else {
-    //   if (!keyPressReady) console.log("nothing is being pressed.");
-    //   keyPressReady = true;
-    // }
   }
 }
 
