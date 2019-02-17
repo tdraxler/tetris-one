@@ -19,7 +19,7 @@ for (var i = 0; i < trackedKeys; i++) {
   keyHandlers.push({
     keyTimer: 0,
     keyPressReady: false,
-    keyDelayTime: i === 3 ? 40 : 20
+    keyDelayTime: i === 3 ? 40 : 15
   });
 }
 
@@ -73,7 +73,7 @@ export class KeyboardHandler {
         if (p.keyIsDown(keyMap[i])) {
           if (keyHandlers[i].keyPressReady === true) {
             actionMap(i, playerObject, gameBoard);
-            if (keyHandlers[i].keyTimer > keyHandlers[i].keyDelayTime + 10) keyHandlers[i].keyTimer = -90;
+            if (keyHandlers[i].keyTimer > keyHandlers[i].keyDelayTime + 10) keyHandlers[i].keyTimer = -70;
             else keyHandlers[i].keyTimer = 0;
             keyHandlers[i].keyPressReady = false;
           }

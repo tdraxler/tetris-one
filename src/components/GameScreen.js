@@ -6,6 +6,13 @@ export class GameScreen {
 
   constructor() {
     this.board = new Array(24).fill(0);
+    this.level = 0;
+    this.score = 0;
+    //How does scoring work? I got my info from here:
+    //https://tetris.fandom.com/wiki/Scoring
+    this.softDropCounter = 0;
+    //What is soft dropping? It's when the player presses the down arrow (or some assigned key)
+    //to drop the tetromino faster. The player gets a small bonus to their score when they do this.
 
     for (var i = 0; i < this.board.length; i++) {
       this.board[i] = new Array(10).fill(0);
@@ -37,20 +44,6 @@ export class GameScreen {
 
   }
 
-  // eraseLines(line) {
-  //   //TODO
-  //   //Go through stack of lines to be removed. Zero out those lines.
-  //   //Then go through the whole array. If there's an empty line with a line with blocks above it, shift it down.
-  //   //Best if we can take that empty line and move it to the top of the gameboard, rather than shifting everything.
-  //   //Can we have a linked list in Javascript?
-
-  //   if (line.length === 0) return;
-  //   for (var i = 0; i < line.length; i++) {
-  //     this.board[i] = new Array[10].fill(-1); //-1 is a placeholder value - it'll be marked for removal.
-  //   }
-  //   this.checkLines();
-  // }
-
   checkLines() {
 
     //In this method, we look for filled rows (that is, not containing an empty element)
@@ -58,7 +51,6 @@ export class GameScreen {
     var shift = 1; //how many lines upwards do we look?
     var finishedCheck = false;
     var cursor = this.board.length - 1;
-
 
     while (finishedCheck === false) {
       if (!this.board[cursor].includes(0)) {
@@ -85,9 +77,46 @@ export class GameScreen {
   }
 
   cleanUpMarkedRows() {
+
+    var clearedLines = 0;
+
     for (var i = 0; i < this.board.length; i++) {
-      if (!this.board[i].includes(0)) this.board[i] = new Array(10).fill(0);
+      if (!this.board[i].includes(0)) {
+        this.board[i] = new Array(10).fill(0);
+        clearedLines++;
+      }
     }
+    this.increaseScore(clearedLines);
+
+  }
+
+  increaseScore(clearedLines) {
+    var multiplier = 0;
+    switch (clearedLines) {
+      case 1:
+        multiplier = 40;
+        break;
+      case 2:
+        multiplier = 100;
+        break;
+      case 3:
+        multiplier = 300;
+        break;
+      case 4:
+        multiplier = 1200
+        break;
+      default:
+        break;
+    }
+
+    this.score += multiplier * (this.level + 1) + Math.floor(this.softDropCounter / 2);
+    this.softDropCounter = 0;
+  }
+
+  //What is soft dropping? It's when the player presses the down arrow (or some assigned key)
+  //to drop the tetromino faster. The player gets a small bonus to their score when they do this.
+  softDropCount() {
+    this.softDropCounter++;
   }
 };
 

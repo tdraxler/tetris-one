@@ -27,6 +27,7 @@ export class Player {
       case "down":
         if (!this.collisionDetected(tetromino, board, 0, +1)) {
           this.y++;
+          board.softDropCount();
         } else {
           board.imprintShape(this.block, this.rotate, this.x, this.y);
           this.newTetro();

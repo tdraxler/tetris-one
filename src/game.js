@@ -11,17 +11,15 @@ let game = (p) => {
   let player = new Player();
   let shape = new Shapes();
   let keyboardHandler = new KeyboardHandler();
+
   let mode = "playing";
   //The game modes determine what is visible, and what keyboard input can be taken.
   // 'playing': normal play. The player can move and rotate shapes.
   // 'line removal': Lines are being removed, so the player's input doesn't matter for a time.
   // 'menu': Show the menu, with associated player input.
-  let keyTimer = 0;
-  let keyPressReady = false;
 
   const boardX = 212;
   const boardY = 20;
-  const keyDelayTime = 8;
 
   // setInterval(() => {
   //   keyTimer = keyTimer < keyDelayTime + 20 ? keyTimer + 1 : keyTimer;
@@ -65,7 +63,10 @@ let game = (p) => {
 
     keyboardHandler.checkKeys(p, player, gameBoard);
 
-
+    p.fill(10, 30, 15);
+    p.rect(45, 95, 70, 30);
+    p.fill(200);
+    p.text("Score: " + gameBoard.score, 50, 110);
 
     if (mode === 'line removal') {
       //TODO
