@@ -1,6 +1,7 @@
 import Shapes from './Shapes';
-import getRandomInt from './Random';
+import { getRandomInt } from './Random';
 import { colors } from './Colors';
+import { squareDraw } from './squareDraw';
 
 const shape = new Shapes();
 
@@ -13,6 +14,7 @@ export class Player {
     this.block = 4;//getRandomInt(0, 6);
     this.nextBlock = getRandomInt(0, 6);
     this.rotate = 0; //rotation index ranges from 0 to 3
+    this.blockDesign = getRandomInt(1, 4);
   }
 
   move(board, dir="down") {
@@ -29,7 +31,7 @@ export class Player {
           this.y++;
           board.softDropCount();
         } else {
-          board.imprintShape(this.block, this.rotate, this.x, this.y);
+          board.imprintShape(this.block, this.rotate, this.x, this.y, this.blockDesign);
           this.newTetro();
         }
         break;
@@ -91,6 +93,7 @@ export class Player {
     this.rotate = 0;
     this.block = this.nextBlock;
     this.nextBlock = getRandomInt(0, 6);
+    this.blockDesign = getRandomInt(1, 4);
   }
 
   draw(p, boardX, boardY, drawNext=false) {
@@ -103,9 +106,10 @@ export class Player {
       for (var y = 0; y < tetromino.length; y++) {
         for (var x = 0; x < tetromino[y].length; x++) {
           if (tetromino[y][x] != 0) {
-            p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
-            p.fill(colors[1].red, colors[1].green, colors[1].blue);
-            p.rect(boardX + x*20 + xOffset, boardY + y*20, 18, 18, 4);
+            // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
+            // p.fill(colors[1].red, colors[1].green, colors[1].blue);
+            // p.rect(boardX + x*20 + xOffset, boardY + y*20, 18, 18, 4);
+            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, colors[1], 0);
           }
         }
       }
@@ -114,9 +118,10 @@ export class Player {
       for (var y = 0; y < tetromino.length; y++) {
         for (var x = 0; x < tetromino[y].length; x++) {
           if (this.y + y >= 4 && tetromino[y][x] != 0) {
-            p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
-            p.fill(colors[1].red, colors[1].green, colors[1].blue);
-            p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
+            // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
+            // p.fill(colors[1].red, colors[1].green, colors[1].blue);
+            // p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
+            squareDraw(p, boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, colors[1], this.blockDesign);
           }
         }
       }

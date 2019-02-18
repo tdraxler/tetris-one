@@ -4,6 +4,7 @@ import Player from './components/Player';
 import Shapes from './components/Shapes';
 import KeyboardHandler from './components/KeyboardHandler';
 import { colors } from './components/Colors';
+import { squareDraw } from './components/squareDraw';
 
 let game = (p) => {
 
@@ -11,6 +12,7 @@ let game = (p) => {
   let player = new Player();
   let shape = new Shapes();
   let keyboardHandler = new KeyboardHandler();
+  let colorMap = gameBoard.makeColorMap();
 
   let mode = "playing";
   //The game modes determine what is visible, and what keyboard input can be taken.
@@ -32,7 +34,6 @@ let game = (p) => {
     console.log("testing...");
     console.log(shape);
     console.log(player);
-
   };
 
   p.draw = () => {
@@ -45,9 +46,10 @@ let game = (p) => {
     for (var y = 4; y < gameBoard.board.length; y++) {
       for (var x = 0; x < gameBoard.board[y].length; x++) {
         if (gameBoard.board[y][x] != 0) {
-          p.stroke(20, 80, 35);
-          p.fill(colors[0].red, colors[0].green, colors[0].blue);
-          p.rect(boardX + 2 + x*20, boardY + 2 + y*20 - 80, 18, 18, 4);
+          // p.stroke(20, 80, 35);
+          // p.fill(colors[0].red, colors[0].green, colors[0].blue);
+          // p.rect(boardX + 2 + x*20, boardY + 2 + y*20 - 80, 18, 18, 4);
+          squareDraw(p, boardX + 2 + x*20, boardY + 2 + y*20 - 80, colorMap[gameBoard.board[y][x] - 1], gameBoard.board[y][x]);
         }
       }
     }

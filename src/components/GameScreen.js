@@ -1,4 +1,5 @@
 import Shapes from './Shapes';
+import { colors, colorShift } from './Colors';
 
 const shape = new Shapes();
 
@@ -24,14 +25,14 @@ export class GameScreen {
     this.color++;
   }
 
-  imprintShape(index, rotation, playerX, playerY) {
+  imprintShape(index, rotation, playerX, playerY, blockDesign=3) {
     let currentShape = shape.giveShape(index, rotation);
 
     //First, add the shape.
     for (var y = 0; y < currentShape.length; y++) {
       for (var x = 0; x < currentShape[y].length; x++) {
         if (currentShape[y][x] != 0) {
-          this.board[y + playerY][x + playerX] = 1;
+          this.board[y + playerY][x + playerX] = blockDesign;
         }
       }
     }
@@ -117,6 +118,15 @@ export class GameScreen {
   //to drop the tetromino faster. The player gets a small bonus to their score when they do this.
   softDropCount() {
     this.softDropCounter++;
+  }
+
+  makeColorMap(level=0) {
+    let defaultColors = colors[level];
+    let newColors = [];
+    for (var i = 0; i < 4; i++) {
+      newColors.push(colorShift(defaultColors, i));
+    }
+    return newColors;
   }
 };
 
