@@ -1,13 +1,13 @@
 let colors = [
   { //player
+    red: 160,
+    green: 100,
+    blue: 30
+  },
+  { //level 1 blocks
     red: 35,
     green: 130,
     blue: 60
-  },
-  { //level 1 blocks
-    red: 40,
-    green: 70,
-    blue: 160
   },
   { //level 2 blocks
     red: 40,

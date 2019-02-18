@@ -15,6 +15,11 @@ export class Player {
     this.nextBlock = getRandomInt(0, 6);
     this.rotate = 0; //rotation index ranges from 0 to 3
     this.blockDesign = getRandomInt(1, 4);
+
+    this.borderGlow = 0; //Variable to make the border around the shape glow.
+    this.glowDir = 'up';
+
+    this.colorMap = colors[0];
   }
 
   move(board, dir="down") {
@@ -93,10 +98,20 @@ export class Player {
     this.rotate = 0;
     this.block = this.nextBlock;
     this.nextBlock = getRandomInt(0, 6);
-    this.blockDesign = getRandomInt(1, 4);
+
+    var oldBlock = this.blockDesign;
+    while (oldBlock === this.blockDesign) {
+      this.blockDesign = getRandomInt(1, 4);
+    }
   }
 
   draw(p, boardX, boardY, drawNext=false) {
+
+
+    if (this.glowDir === 'up') this.borderGlow += 4;
+    else this.borderGlow -= 4;
+    if (this.borderGlow <= 0) this.glowDir = 'up';
+    if (this.borderGlow >= 70) this.glowDir = 'down';
 
     //Give a different rotation value if we're drawing the normal shape or the next one
     let tetromino = shape.giveShape((drawNext ? this.nextBlock : this.block), (drawNext ? 1 : this.rotate));
@@ -109,7 +124,7 @@ export class Player {
             // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
             // p.fill(colors[1].red, colors[1].green, colors[1].blue);
             // p.rect(boardX + x*20 + xOffset, boardY + y*20, 18, 18, 4);
-            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, colors[1], 0);
+            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, colors[0], 0);
           }
         }
       }
@@ -121,12 +136,14 @@ export class Player {
             // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
             // p.fill(colors[1].red, colors[1].green, colors[1].blue);
             // p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
-            squareDraw(p, boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, colors[1], this.blockDesign);
+            squareDraw(p, boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, this.colorMap, this.blockDesign);
+            p.noFill();
+            p.stroke(this.colorMap.red + this.borderGlow, this.colorMap.green + Math.floor(this.borderGlow * 0.7), this.colorMap.blue);
+            p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
           }
         }
       }
     }
-
   }
 
 };

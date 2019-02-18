@@ -8,10 +8,11 @@ const keyMap = {
   0: 37, //left
   1: 40, //down
   2: 39, //right
-  3: 32  //space (or whatever is being used for the rotate key)
+  3: 32,  //space (or whatever is being used for the rotate key)
+  4: 13
 };
 
-const trackedKeys = 4;
+const trackedKeys = 5;
 
 var keyHandlers = [];
 
@@ -53,6 +54,11 @@ const actionMap = (act, playerObject, gameBoard) => {
       break;
     case 3:
       playerObject.rotateShape(gameBoard);
+      break;
+    case 4:
+      if (gameBoard.gameMode === 'playing') gameBoard.changeGameMode('paused');
+      else gameBoard.changeGameMode('playing');
+      console.log("Changed mode?");
       break;
     default:
       console.log("Invalid action");

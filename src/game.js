@@ -8,17 +8,16 @@ import { squareDraw } from './components/squareDraw';
 
 let game = (p) => {
 
+  setInterval(() => {
+    fps = p.frameRate();
+  }, 500);
+
   let gameBoard = new GameScreen();
   let player = new Player();
   let shape = new Shapes();
   let keyboardHandler = new KeyboardHandler();
-  let colorMap = gameBoard.makeColorMap();
-
-  let mode = "playing";
-  //The game modes determine what is visible, and what keyboard input can be taken.
-  // 'playing': normal play. The player can move and rotate shapes.
-  // 'line removal': Lines are being removed, so the player's input doesn't matter for a time.
-  // 'menu': Show the menu, with associated player input.
+  let colorMap = gameBoard.makeColorMap(1);
+  let fps = 0;
 
   const boardX = 212;
   const boardY = 20;
@@ -37,45 +36,52 @@ let game = (p) => {
   };
 
   p.draw = () => {
+
+    //Gameplay area
     p.stroke(180);
     p.fill(10, 30, 15);
     p.rect(boardX, boardY, 202, 402, 5);
 
-
-    //y starts at 4 because some of the upper layers should be invisible to the player.
-    for (var y = 4; y < gameBoard.board.length; y++) {
-      for (var x = 0; x < gameBoard.board[y].length; x++) {
-        if (gameBoard.board[y][x] != 0) {
-          // p.stroke(20, 80, 35);
-          // p.fill(colors[0].red, colors[0].green, colors[0].blue);
-          // p.rect(boardX + 2 + x*20, boardY + 2 + y*20 - 80, 18, 18, 4);
-          squareDraw(p, boardX + 2 + x*20, boardY + 2 + y*20 - 80, colorMap[gameBoard.board[y][x] - 1], gameBoard.board[y][x]);
-        }
-      }
-    }
-
-    //Draw the player's tetromino
-    player.draw(p, boardX, boardY);
-
-    //Then draw the next one
+    //Box for the preview of the next shape
     p.stroke(180);
     p.fill(10, 30, 15);
     p.rect(20, 20, 90, 60, 5);
-    player.draw(p, 25, 30, true);
+
+    switch(gameBoard.gameMode) {
+      case 'playing':
+        gameBoard.drawGame(p, boardX, boardY, colorMap);
+        //Draw the player's tetromino & the preview of the next shape.
+        player.draw(p, boardX, boardY);
+        player.draw(p, 25, 30, true);
+        break;
+      case 'line removal':
+        gameBoard.drawGame(p, boardX, boardY, colorMap);
+        gameBoard.animateRemovalOfLines(p, boardX, boardY);
+        player.draw(p, 25, 30, true);
+        break;
+      case 'paused':
+        p.fill(255);
+        p.text("PAUSED", boardX + 30, boardY + 50);
+        break;
+      default:
+        break;
+    }
+
 
     keyboardHandler.checkKeys(p, player, gameBoard);
 
+    p.stroke(180);
     p.fill(10, 30, 15);
     p.rect(45, 95, 70, 30);
     p.fill(200);
     p.text("Score: " + gameBoard.score, 50, 110);
 
-    if (mode === 'line removal') {
-      //TODO
-      //Lines that will be removed flash for a bit.
-      //If four lines are about to be removed, flash some more UI elements
-    }
-
+    p.fill(10, 30, 15);
+    p.rect(0, 0, 70, 20);
+    //var fps = p.frameRate();
+    p.fill(255);
+    p.stroke(0);
+    p.text("FPS: " + fps.toFixed(2), 0, 12);
   };
 
 };
