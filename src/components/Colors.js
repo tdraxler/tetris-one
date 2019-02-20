@@ -1,46 +1,71 @@
-let colors = [
+import { getRandomInt } from './Random';
+
+let colorsArr = [
   { //player
     red: 160,
     green: 100,
     blue: 30
   },
-  { //level 1 blocks
+  { //level 0 blocks
     red: 35,
     green: 130,
     blue: 60
   },
-  { //level 2 blocks
+  { //level 1 blocks
     red: 40,
-    green: 70,
-    blue: 160
+    green: 80,
+    blue: 190
+  },
+  { //level 2 blocks
+    red: 120,
+    green: 100,
+    blue: 140
   },
   { //level 3 blocks
     red: 40,
-    green: 70,
+    green: 130,
     blue: 160
   },
   { //level 4 blocks
-    red: 40,
+    red: 190,
     green: 70,
-    blue: 160
-  },
-  { //level 5 blocks
-    red: 40,
-    green: 70,
-    blue: 160
+    blue: 30
   },  
-  { //level 6 blocks
-    red: 40,
-    green: 70,
-    blue: 160
+  { //level 5 blocks
+    red: 140,
+    green: 160,
+    blue: 110
   },
-  { //level 7 blocks
-    red: 40,
-    green: 70,
-    blue: 160
+  { //level 6 blocks
+    red: 160,
+    green: 120,
+    blue: 40
   },
   //After that, random colors are generated (TODO)
 ];
+
+function colors(index) {
+  //If there's a color object already available for the provided index, just return that.
+  if (index < colorsArr.length) return colorsArr[index];
+
+  //Otherwise, generate a random one.
+  var redIndex = getRandomInt(10,90);
+  var greenIndex = getRandomInt(10,redIndex);
+  var blueIndex = 100 - redIndex - greenIndex;
+  redIndex = 320 * (redIndex / 100);
+  greenIndex = 320 * (greenIndex / 100);
+  blueIndex = 320 * (blueIndex / 100);
+  if (redIndex > 200) redIndex = 200;
+  if (greenIndex > 200) greenIndex = 200;
+  if (blueIndex > 200) blueIndex = 200;
+  return (
+    {
+      red: Math.floor(redIndex),
+      green: Math.floor(greenIndex),
+      blue: Math.floor(blueIndex)
+    }
+  );
+}
 
 function lighten(colorSet, factor=1) {
   return (

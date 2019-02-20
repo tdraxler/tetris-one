@@ -8,8 +8,9 @@ export class GameScreen {
 
   constructor() {
     this.board = new Array(24).fill(0);
-    this.level = 1;
+    this.level = 0;
     this.score = 0;
+    this.linesCleared = 0;
     //How does scoring work? I got my info from here:
     //https://tetris.fandom.com/wiki/Scoring
     this.softDropCounter = 0;
@@ -21,10 +22,11 @@ export class GameScreen {
     }
     this.color = 0;
     this.linesToClear = [];
-    this.removalProgress = 0; //
+    this.removalProgress = 0; //How far along in the line removal animation we are.
     this.coolDownBlocks = []; //An array of blocks that transition from orange (like the player) to the same color as the imprinted blocks
     this.coolDownTimer = 0;
     this.gameMode = 'playing';
+    this.colorMap = this.makeColorMap(this.level);
     //The game modes determine what is visible, and what keyboard input can be taken.
     // 'playing': normal play. The player can move and rotate shapes.
     // 'line removal': Lines are being removed, so the player's input doesn't matter for a time.
@@ -50,10 +52,13 @@ export class GameScreen {
     }
     //Then see if any lines need to be removed.
     this.quickFilledLinesCheck();
+    this.score += Math.floor(this.softDropCounter / 2);
+    this.softDropCounter = 0;
   }
 
-  changeLevel() {
-
+  changeLevel(newLevel) {
+    this.level = newLevel;
+    this.colorMap = this.makeColorMap(this.level);
   }
 
   animateRemovalOfLines(p, boardX, boardY) {
@@ -72,8 +77,8 @@ export class GameScreen {
         p.quad(
           baseX + 10 - quadOffset, baseY + 10 - quadOffset, 
           baseX + 20, baseY, 
-          baseX + 10 + quadOffset, baseY + 10 + quadOffset, 
-          baseX, baseY + 20
+          baseX + 10 + quadOffset, baseY + 11 + quadOffset, 
+          baseX, baseY + 21
         );      
       }
     }
@@ -84,8 +89,8 @@ export class GameScreen {
       p.rect(boardX, boardY, 202, 402, 5);
     }
 
-    this.removalProgress += 1.5;
-    if (this.removalProgress > 33) {
+    this.removalProgress += 2;
+    if (this.removalProgress > 43) {
       this.checkAndRemoveLines();
       this.changeGameMode('playing');
     }
@@ -100,6 +105,8 @@ export class GameScreen {
       }
     }
     if (this.linesToClear.length > 0) {
+      this.linesCleared += this.linesToClear.length;
+      if (this.linesCleared >= (this.level + 1) * 10) this.changeLevel(this.level + 1);
       this.changeGameMode('line removal');
     }
   }
@@ -168,9 +175,7 @@ export class GameScreen {
       default:
         break;
     }
-
-    this.score += multiplier * (this.level + 1) + Math.floor(this.softDropCounter / 2);
-    this.softDropCounter = 0;
+    this.score += multiplier * (this.level + 1);
   }
 
   //What is soft dropping? It's when the player presses the down arrow (or some assigned key)
@@ -180,7 +185,7 @@ export class GameScreen {
   }
 
   makeColorMap(level=1) {
-    let defaultColors = colors[level];
+    let defaultColors = colors(level + 1);
     let newColors = [];
     for (var i = 0; i < 4; i++) {
       newColors.push(colorShift(defaultColors, i));
@@ -188,12 +193,12 @@ export class GameScreen {
     return newColors;
   }
 
-  drawGame(p, boardX, boardY, colorMap) {
+  drawGame(p, boardX, boardY) {
     //y starts at 4 because some of the upper layers should be invisible to the player.
     for (var y = 4; y < this.board.length; y++) {
       for (var x = 0; x < this.board[y].length; x++) {
         if (this.board[y][x] != 0) {
-          squareDraw(p, boardX + 2 + x*20, boardY + 2 + y*20 - 80, colorMap[this.board[y][x] - 1], this.board[y][x]);
+          squareDraw(p, boardX + 2 + x*20, boardY + 2 + y*20 - 80, this.colorMap[this.board[y][x] - 1], this.board[y][x]);
         }
       }
     }

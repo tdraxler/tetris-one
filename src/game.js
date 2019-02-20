@@ -3,8 +3,7 @@ import GameScreen from './components/GameScreen';
 import Player from './components/Player';
 import Shapes from './components/Shapes';
 import KeyboardHandler from './components/KeyboardHandler';
-import { colors } from './components/Colors';
-import { squareDraw } from './components/squareDraw';
+import TestModule from './components/TestModule';
 
 let game = (p) => {
 
@@ -16,7 +15,6 @@ let game = (p) => {
   let player = new Player();
   let shape = new Shapes();
   let keyboardHandler = new KeyboardHandler();
-  let colorMap = gameBoard.makeColorMap(1);
   let fps = 0;
 
   const boardX = 212;
@@ -30,9 +28,9 @@ let game = (p) => {
   p.setup = () => {
     p.createCanvas(640, 480).parent('tetris-view');
     p.background(100, 50, 200);
-    console.log("testing...");
-    console.log(shape);
-    console.log(player);
+    console.log(TestModule.myVar);
+    TestModule.myVar = 253;
+
   };
 
   p.draw = () => {
@@ -49,13 +47,13 @@ let game = (p) => {
 
     switch(gameBoard.gameMode) {
       case 'playing':
-        gameBoard.drawGame(p, boardX, boardY, colorMap);
+        gameBoard.drawGame(p, boardX, boardY);
         //Draw the player's tetromino & the preview of the next shape.
         player.draw(p, boardX, boardY);
         player.draw(p, 25, 30, true);
         break;
       case 'line removal':
-        gameBoard.drawGame(p, boardX, boardY, colorMap);
+        gameBoard.drawGame(p, boardX, boardY);
         gameBoard.animateRemovalOfLines(p, boardX, boardY);
         player.draw(p, 25, 30, true);
         break;
@@ -67,14 +65,17 @@ let game = (p) => {
         break;
     }
 
-
+    //Needs to see the level. If a level change is detected, the keyboard handler will change the input interval rate.
     keyboardHandler.checkKeys(p, player, gameBoard);
 
     p.stroke(180);
     p.fill(10, 30, 15);
-    p.rect(45, 95, 70, 30);
+    p.rect(45, 95, 110, 70);
     p.fill(200);
     p.text("Score: " + gameBoard.score, 50, 110);
+    p.text("Lines cleared: " + gameBoard.linesCleared, 50, 130);
+    p.text("Level: " + gameBoard.level, 50, 150);
+
 
     p.fill(10, 30, 15);
     p.rect(0, 0, 70, 20);
@@ -82,6 +83,9 @@ let game = (p) => {
     p.fill(255);
     p.stroke(0);
     p.text("FPS: " + fps.toFixed(2), 0, 12);
+
+    //TODO:
+    //Check Status Method: If the game is lost or something, end the game, change the game mode to 'game over'
   };
 
 };

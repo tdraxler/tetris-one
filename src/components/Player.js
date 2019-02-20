@@ -19,7 +19,7 @@ export class Player {
     this.borderGlow = 0; //Variable to make the border around the shape glow.
     this.glowDir = 'up';
 
-    this.colorMap = colors[0];
+    this.colorMap = colors(0);
   }
 
   move(board, dir="down") {
@@ -121,10 +121,7 @@ export class Player {
       for (var y = 0; y < tetromino.length; y++) {
         for (var x = 0; x < tetromino[y].length; x++) {
           if (tetromino[y][x] != 0) {
-            // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
-            // p.fill(colors[1].red, colors[1].green, colors[1].blue);
-            // p.rect(boardX + x*20 + xOffset, boardY + y*20, 18, 18, 4);
-            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, colors[0], 0);
+            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, this.colorMap, 0);
           }
         }
       }
@@ -133,9 +130,6 @@ export class Player {
       for (var y = 0; y < tetromino.length; y++) {
         for (var x = 0; x < tetromino[y].length; x++) {
           if (this.y + y >= 4 && tetromino[y][x] != 0) {
-            // p.stroke(colors[1].red / 2, colors[1].green / 2, colors[1].blue / 2);
-            // p.fill(colors[1].red, colors[1].green, colors[1].blue);
-            // p.rect(boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, 18, 18, 4);
             squareDraw(p, boardX + 2 + x*20 + this.x*20, boardY + 2 + y*20 + this.y*20 - 80, this.colorMap, this.blockDesign);
             p.noFill();
             p.stroke(this.colorMap.red + this.borderGlow, this.colorMap.green + Math.floor(this.borderGlow * 0.7), this.colorMap.blue);
@@ -145,6 +139,15 @@ export class Player {
       }
     }
   }
+
+  //TODO:
+  //Player moves (gravity drop) depending on level
+
+  //If a new tetromino happens and it CAN'T be placed (because of a dead tetromino already there), end the game.
+  //To end the game, what does this class need to be able to see and use?
+  //-The board
+  //-It needs to be able to call some sort of 'Game Over' Function that will cause the game mode to change. (and go back
+  //to a main menu)
 
 };
 
