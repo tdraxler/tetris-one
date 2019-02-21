@@ -2,9 +2,12 @@ import Shapes from './Shapes';
 import { getRandomInt } from './Random';
 import { colors } from './Colors';
 import { squareDraw } from './squareDraw';
+import { dropIntervals } from './Gravity';
+import GameState from './GlobalGameData';
+import TetrominoRandomizer from './TetrominoRandomizer';
 
 const shape = new Shapes();
-
+const tetrominoChooser = new TetrominoRandomizer();
 
 export class Player {
 

@@ -1,5 +1,3 @@
-import TestModule from './TestModule';
-
 //So each key in the game gets its own key input timer (to check for repeat key presses)
 //Because there's an array of keyboard timers, 
 const keyMap = {
@@ -19,7 +17,9 @@ for (var i = 0; i < trackedKeys; i++) {
     keyTimer: 0,
     keyPressReady: false,
     keyDelayTime: i === 3 ? 12 : 3,
-    keyReleased: true
+    keyReleased: true,
+    holdKey: false //Usually this is always false. If this value is true, keyboard input is not accepted
+    //for this key until it's released.
   });
 }
 
@@ -53,7 +53,6 @@ const actionMap = (act, playerObject, gameBoard) => {
     case 4:
       if (gameBoard.gameMode === 'playing') gameBoard.changeGameMode('paused');
       else gameBoard.changeGameMode('playing');
-      console.log(TestModule.myVar);
       break;
     default:
       console.log("Invalid action");

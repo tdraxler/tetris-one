@@ -3,7 +3,8 @@ import GameScreen from './components/GameScreen';
 import Player from './components/Player';
 import Shapes from './components/Shapes';
 import KeyboardHandler from './components/KeyboardHandler';
-import TestModule from './components/TestModule';
+//import TestModule from './components/TestModule';
+import GameState from './components/GlobalGameData';
 
 let game = (p) => {
 
@@ -28,9 +29,6 @@ let game = (p) => {
   p.setup = () => {
     p.createCanvas(640, 480).parent('tetris-view');
     p.background(100, 50, 200);
-    console.log(TestModule.myVar);
-    TestModule.myVar = 253;
-
   };
 
   p.draw = () => {
@@ -72,9 +70,9 @@ let game = (p) => {
     p.fill(10, 30, 15);
     p.rect(45, 95, 110, 70);
     p.fill(200);
-    p.text("Score: " + gameBoard.score, 50, 110);
-    p.text("Lines cleared: " + gameBoard.linesCleared, 50, 130);
-    p.text("Level: " + gameBoard.level, 50, 150);
+    p.text("Score: " + GameState.score, 50, 110);
+    p.text("Lines cleared: " + GameState.linesCleared, 50, 130);
+    p.text("Level: " + GameState.level, 50, 150);
 
 
     p.fill(10, 30, 15);
