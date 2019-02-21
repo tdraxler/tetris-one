@@ -223,6 +223,9 @@ export class GameScreen {
         this.gameMode = 'line removal';
         this.removalProgress = 0;
         break;
+      case 'lost game':
+        this.gameMode = 'lost game';
+        break;
       case 'paused':
         this.gameMode = 'paused';
         break;

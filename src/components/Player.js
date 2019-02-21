@@ -26,33 +26,32 @@ export class Player {
   }
 
   move(board, dir="down") {
-    //TODO
-    //moves the player down
-    //checks for collisions
 
-    //First, get the array of the shape so we can use it to detect collisions
-    let tetromino = shape.giveShape(this.block, this.rotate);
 
-    switch(dir) {
-      case "down":
-        if (!this.collisionDetected(tetromino, board, 0, +1)) {
-          this.y++;
-          board.softDropCount();
-        } else {
-          board.imprintShape(this.block, this.rotate, this.x, this.y, this.blockDesign);
-          this.newTetro();
-        }
-        break;
-      case "left":
-        if (!this.collisionDetected(tetromino, board, -1, 0)) this.x--;
-        break;
-      case "right":
-        if (!this.collisionDetected(tetromino, board, +1, 0)) this.x++;
-        break;
-      default:
-        break;
+    if (board.gameMode = 'playing') {
+      //First, get the array of the shape so we can use it to detect collisions
+      let tetromino = shape.giveShape(this.block, this.rotate);
+
+      switch(dir) {
+        case "down":
+          if (!this.collisionDetected(tetromino, board, 0, +1)) {
+            this.y++;
+            board.softDropCount();
+          } else {
+            board.imprintShape(this.block, this.rotate, this.x, this.y, this.blockDesign);
+            this.newTetro(board);
+          }
+          break;
+        case "left":
+          if (!this.collisionDetected(tetromino, board, -1, 0)) this.x--;
+          break;
+        case "right":
+          if (!this.collisionDetected(tetromino, board, +1, 0)) this.x++;
+          break;
+        default:
+          break;
+      }
     }
-    //console.log("X: " + this.x + " Y: " + this.y);
   }
 
   collisionDetected(tetromino, board, xOffset=0, yOffset=0) {
@@ -92,7 +91,7 @@ export class Player {
 
   }
 
-  newTetro() {
+  newTetro(board) {
     //Determines which tetromino will be dropped from the top next.
     //This function is called if move() determines that the player tetromino can go no further down.
 
@@ -101,6 +100,13 @@ export class Player {
     this.rotate = 0;
     this.block = this.nextBlock;
     this.nextBlock = tetrominoChooser.giveMeTheNextTetromino();
+
+    //Check to see if there's already a collision with dead tetrominos. If so, lose the game.
+    let tetromino = shape.giveShape(this.block, this.rotate);
+    if (this.collisionDetected(tetromino, board, 0, 0)) {
+      board.changeGameMode('lost game');
+      this.pausedGravity = true;
+    }
 
     var oldBlock = this.blockDesign;
     while (oldBlock === this.blockDesign) {

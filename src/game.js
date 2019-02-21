@@ -59,6 +59,9 @@ let game = (p) => {
         p.fill(255);
         p.text("PAUSED", boardX + 30, boardY + 50);
         break;
+      case 'lost game':
+        p.fill(255);
+        p.text("lmao git gud casul", boardX + 30, boardY + 50);
       default:
         break;
     }
