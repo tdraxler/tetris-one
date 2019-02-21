@@ -6,9 +6,10 @@ const keyMap = {
   2: 39, //right
   3: 32, //space (or whatever is being used for the rotate key)
   4: 13, //Enter (for pausing)
+  5: 80, //p - debug pause gravity
 };
 
-const trackedKeys = 5;
+const trackedKeys = 6;
 
 var keyHandlers = [];
 
@@ -51,8 +52,17 @@ const actionMap = (act, playerObject, gameBoard) => {
       playerObject.rotateShape(gameBoard);
       break;
     case 4:
-      if (gameBoard.gameMode === 'playing') gameBoard.changeGameMode('paused');
-      else gameBoard.changeGameMode('playing');
+      if (gameBoard.gameMode === 'playing') {
+        gameBoard.changeGameMode('paused');
+        playerObject.pausedGravity = true;
+      }
+      else {
+        gameBoard.changeGameMode('playing');
+        playerObject.pausedGravity = false;
+      }
+      break;
+    case 5:
+      playerObject.pausedGravity = !playerObject.pausedGravity;
       break;
     default:
       console.log("Invalid action");

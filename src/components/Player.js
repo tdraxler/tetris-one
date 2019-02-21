@@ -2,8 +2,6 @@ import Shapes from './Shapes';
 import { getRandomInt } from './Random';
 import { colors } from './Colors';
 import { squareDraw } from './squareDraw';
-import { dropIntervals } from './Gravity';
-import GameState from './GlobalGameData';
 import TetrominoRandomizer from './TetrominoRandomizer';
 
 const shape = new Shapes();
@@ -14,8 +12,8 @@ export class Player {
   constructor() {
     this.x = 4;
     this.y = 0;
-    this.block = 4;//getRandomInt(0, 6);
-    this.nextBlock = getRandomInt(0, 6);
+    this.block = tetrominoChooser.giveMeTheNextTetromino();
+    this.nextBlock = tetrominoChooser.giveMeTheNextTetromino();
     this.rotate = 0; //rotation index ranges from 0 to 3
     this.blockDesign = getRandomInt(1, 4);
 
@@ -23,6 +21,8 @@ export class Player {
     this.glowDir = 'up';
 
     this.colorMap = colors(0);
+
+    this.pausedGravity = false;
   }
 
   move(board, dir="down") {
@@ -100,7 +100,7 @@ export class Player {
     this.y = 0;
     this.rotate = 0;
     this.block = this.nextBlock;
-    this.nextBlock = getRandomInt(0, 6);
+    this.nextBlock = tetrominoChooser.giveMeTheNextTetromino();
 
     var oldBlock = this.blockDesign;
     while (oldBlock === this.blockDesign) {

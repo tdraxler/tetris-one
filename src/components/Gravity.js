@@ -1,6 +1,7 @@
+import GameState from './GlobalGameData';
+
 //In the NES version of Tetris, it would appear that the time interval for drops by gravity are hard-coded, rather
 //than following a pattern.
-
 const dropIntervals = (level) => {
   if (level === 0) {
     return 800;
@@ -48,3 +49,10 @@ const dropIntervals = (level) => {
     return 17;
   }
 }
+
+const gravityDrop = (playerObj, boardObj) => {
+  if (!playerObj.pausedGravity) playerObj.move(boardObj, "down");
+  setTimeout(gravityDrop, dropIntervals(GameState.level), playerObj, boardObj);
+}
+
+export { gravityDrop, dropIntervals }

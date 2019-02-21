@@ -3,8 +3,8 @@ import GameScreen from './components/GameScreen';
 import Player from './components/Player';
 import Shapes from './components/Shapes';
 import KeyboardHandler from './components/KeyboardHandler';
-//import TestModule from './components/TestModule';
 import GameState from './components/GlobalGameData';
+import { gravityDrop, dropIntervals } from './components/Gravity';
 
 let game = (p) => {
 
@@ -14,7 +14,6 @@ let game = (p) => {
 
   let gameBoard = new GameScreen();
   let player = new Player();
-  let shape = new Shapes();
   let keyboardHandler = new KeyboardHandler();
   let fps = 0;
 
@@ -29,6 +28,7 @@ let game = (p) => {
   p.setup = () => {
     p.createCanvas(640, 480).parent('tetris-view');
     p.background(100, 50, 200);
+    setTimeout(gravityDrop, dropIntervals(GameState.level), player, gameBoard);
   };
 
   p.draw = () => {
