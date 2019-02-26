@@ -214,7 +214,8 @@ export class GameScreen {
   }
 
   changeGameMode(newMode) {
-    this.gameMode = newMode;
+    //this.gameMode = newMode;
+    console.log("Changing game mode to " + newMode);
     switch(newMode) {
       case 'playing':
         this.gameMode = 'playing';
