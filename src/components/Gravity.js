@@ -51,7 +51,7 @@ const dropIntervals = (level) => {
 }
 
 const gravityDrop = (playerObj, boardObj) => {
-  if (boardObj.gameMode === 'playing' && !playerObj.pausedGravity) playerObj.move(boardObj, "down");
+  if (GameState.gameMode === 'playing' && !playerObj.pausedGravity) playerObj.move(boardObj, "down");
   //console.log("Current play mode is " + boardObj.gameMode);
   setTimeout(gravityDrop, dropIntervals(GameState.level), playerObj, boardObj);
 }

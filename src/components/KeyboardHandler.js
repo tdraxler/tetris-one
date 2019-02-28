@@ -1,3 +1,5 @@
+import GameState from './GlobalGameData';
+
 //So each key in the game gets its own key input timer (to check for repeat key presses)
 //Because there's an array of keyboard timers, 
 const keyMap = {
@@ -40,24 +42,24 @@ setInterval(() => {
 const actionMap = (act, playerObject, gameBoard) => {
   switch(act) {
     case 0:
-      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'left');
+      GameState.gameMode === 'playing' && playerObject.move(gameBoard, 'left');
       break;
     case 1:
-      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'down');
+      GameState.gameMode === 'playing' && playerObject.move(gameBoard, 'down');
       break;
     case 2:
-      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'right');
+      GameState.gameMode === 'playing' && playerObject.move(gameBoard, 'right');
       break;
     case 3:
       playerObject.rotateShape(gameBoard);
       break;
     case 4:
-      if (gameBoard.gameMode === 'playing') {
-        gameBoard.changeGameMode('paused');
+      if (GameState.gameMode === 'playing') {
+        GameState.changeGameMode('paused');
         playerObject.pausedGravity = true;
       }
       else {
-        gameBoard.changeGameMode('playing');
+        GameState.changeGameMode('playing');
         playerObject.pausedGravity = false;
       }
       break;

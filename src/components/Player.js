@@ -1,3 +1,4 @@
+import GameState from './GlobalGameData';
 import Shapes from './Shapes';
 import { getRandomInt } from './Random';
 import { colors } from './Colors';
@@ -28,7 +29,7 @@ export class Player {
   move(board, dir="down") {
 
 
-    if (board.gameMode = 'playing') {
+    if (GameState.gameMode = 'playing') {
       //First, get the array of the shape so we can use it to detect collisions
       let tetromino = shape.giveShape(this.block, this.rotate);
 
@@ -104,7 +105,7 @@ export class Player {
     //Check to see if there's already a collision with dead tetrominos. If so, lose the game.
     let tetromino = shape.giveShape(this.block, this.rotate);
     if (this.collisionDetected(tetromino, board, 0, 0)) {
-      board.changeGameMode('lost game');
+      GameState.changeGameMode('lost game');
       this.pausedGravity = true;
     }
 

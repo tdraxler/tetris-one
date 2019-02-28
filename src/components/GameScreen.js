@@ -26,7 +26,7 @@ export class GameScreen {
     this.removalProgress = 0; //How far along in the line removal animation we are.
     this.coolDownBlocks = []; //An array of blocks that transition from orange (like the player) to the same color as the imprinted blocks
     this.coolDownTimer = 0;
-    this.gameMode = 'playing';
+    //this.gameMode = 'playing';
     this.colorMap = this.makeColorMap(GameState.level);
     //The game modes determine what is visible, and what keyboard input can be taken.
     // 'playing': normal play. The player can move and rotate shapes.
@@ -93,7 +93,7 @@ export class GameScreen {
       this.checkAndRemoveLines();
       console.log("Completed a line removal with progress at " + this.removalProgress);
       this.removalProgress = 0;
-      this.changeGameMode('playing');
+      GameState.changeGameMode('playing');
     }
   }
 
@@ -108,8 +108,8 @@ export class GameScreen {
     if (this.linesToClear.length > 0) {
       GameState.linesCleared += this.linesToClear.length;
       if (GameState.linesCleared >= (GameState.level + 1) * 10) this.changeLevel(GameState.level + 1);
-      console.log("Trying to remove some lines!");
-      this.changeGameMode('line removal');
+      this.removalProgress = 0;
+      GameState.changeGameMode('line removal');
     }
   }
 
@@ -214,29 +214,6 @@ export class GameScreen {
       }
       this.coolDownTimer -= 2;
       //console.log(this.coolDownTimer);
-    }
-  }
-
-  changeGameMode(newMode) {
-    //this.gameMode = newMode;
-    console.log("Changing game mode to " + newMode);
-    switch(newMode) {
-      case 'playing':
-        this.gameMode = 'playing';
-        break;
-      case 'line removal':
-        this.gameMode = 'line removal';
-        this.removalProgress = 0;
-        break;
-      case 'lost game':
-        this.gameMode = 'lost game';
-        break;
-      case 'paused':
-        this.gameMode = 'paused';
-        break;
-      default:
-        this.gameMode = 'paused';
-        break;
     }
   }
 };
