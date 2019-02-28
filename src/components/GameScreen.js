@@ -91,6 +91,8 @@ export class GameScreen {
     this.removalProgress += 2;
     if (this.removalProgress > 43) {
       this.checkAndRemoveLines();
+      console.log("Completed a line removal with progress at " + this.removalProgress);
+      this.removalProgress = 0;
       this.changeGameMode('playing');
     }
   }
@@ -106,6 +108,7 @@ export class GameScreen {
     if (this.linesToClear.length > 0) {
       GameState.linesCleared += this.linesToClear.length;
       if (GameState.linesCleared >= (GameState.level + 1) * 10) this.changeLevel(GameState.level + 1);
+      console.log("Trying to remove some lines!");
       this.changeGameMode('line removal');
     }
   }
@@ -153,6 +156,7 @@ export class GameScreen {
       }
     }
     this.increaseScore(clearedLines);
+    console.log("Cleared " + clearedLines + " lines.");
 
   }
 

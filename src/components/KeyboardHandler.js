@@ -40,13 +40,13 @@ setInterval(() => {
 const actionMap = (act, playerObject, gameBoard) => {
   switch(act) {
     case 0:
-      playerObject.move(gameBoard, 'left');
+      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'left');
       break;
     case 1:
-      playerObject.move(gameBoard, 'down');
+      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'down');
       break;
     case 2:
-      playerObject.move(gameBoard, 'right');
+      gameBoard.gameMode === 'playing' && playerObject.move(gameBoard, 'right');
       break;
     case 3:
       playerObject.rotateShape(gameBoard);
