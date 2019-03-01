@@ -2,6 +2,7 @@ import Button from './Button';
 import GameState from './GlobalGameData';
 
 let startButton = new Button(240, 300, 160, 50, "Click to Begin");
+let menuButton = new Button (20, 430, 100, 30, "End Game");
 
 const drawGameArea = (p, boardX, boardY) => {
     //Gameplay area
@@ -27,11 +28,13 @@ const drawGameArea = (p, boardX, boardY) => {
     p.rect(0, 0, 70, 20);
     p.fill(255);
     p.stroke(0);
+    menuButton.draw(p);
     //p.text("FPS: " + fps.toFixed(2), 0, 12);
 };
 
 const drawStartMenuDecorations = (p) => {
-
+  //To do: Add any other decorations, if necessary.
+  //If not, this method should be removed.
 }
 
 const drawStartMenuTitleAndButton = (p) => {
@@ -52,7 +55,9 @@ const drawStartMenuTitleAndButton = (p) => {
 
 const checkButtons = (p) => {
   if (startButton.checkMouseClickComplete(p)) return 'start the game';
-  else return 'no action';
+  if (menuButton.checkMouseClickComplete(p)) return 'back to menu';
+  
+  return 'no action';
 }
 
 export { drawGameArea, drawStartMenuDecorations, drawStartMenuTitleAndButton, checkButtons };

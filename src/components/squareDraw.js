@@ -5,6 +5,7 @@ export const squareDraw = (p, x, y, color, squareType=0) => {
 
   let darkerCol = darken(color, 1.2);
   let lighterCol = lighten(color, 1.2);
+  p.strokeWeight(1);
 
   switch (squareType) {
     case 1:

@@ -26,6 +26,10 @@ export class Player {
     this.pausedGravity = false;
   }
 
+  reset() {
+    this.constructor();
+  }
+
   move(board, dir="down") {
 
 

@@ -26,7 +26,7 @@ export class Button {
     p.text(this.text, this.x + (this.sizeX / 2), this.y + (this.sizeY / 2));
   }
   checkForMouseOver(p) {
-    if (p.mouseX >= this.x && p.mouseY <= this.x + this.sizeX) {
+    if (p.mouseX >= this.x && p.mouseX <= this.x + this.sizeX) {
       if (p.mouseY >= this.y && p.mouseY <= this.y + this.sizeY) {
         return true;
       }
@@ -34,7 +34,7 @@ export class Button {
   }
 
   checkMouseClickComplete(p) {
-    if (p.mouseX >= this.x && p.mouseY <= this.x + this.sizeX) {
+    if (p.mouseX >= this.x && p.mouseX <= this.x + this.sizeX) {
       if (p.mouseY >= this.y && p.mouseY <= this.y + this.sizeY) {
         console.log("Clicked and released in the box!");
         return true;

@@ -49,6 +49,9 @@ let game = (p) => {
     p.textStyle(p.NORMAL);
     p.textAlign(p.LEFT, p.TOP);
 
+    //If necessary, redraw the background
+    if (GameState.shouldRedraw) GameState.redrawBackground();
+
     switch(GameState.gameMode) {
       case 'playing':
         drawGameArea(p, boardX, boardY);
@@ -87,7 +90,12 @@ let game = (p) => {
 
 
   p.mouseClicked = () => {
-    if (checkButtons(p) === 'start the game') GameState.changeGameMode('playing');
+    if (GameState.gameMode === 'main menu' && checkButtons(p) === 'start the game') GameState.changeGameMode('playing');
+    if (GameState.gameMode != 'main menu' && checkButtons(p) === 'back to menu') {
+      GameState.changeGameMode('main menu');
+      GameState.shouldRedraw = true;
+      player.reset();
+    }
     return false;
   }
 };
