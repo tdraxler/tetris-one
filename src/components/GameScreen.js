@@ -34,6 +34,10 @@ export class GameScreen {
     // 'menu': Show the menu, with associated player input.
   }
 
+  reset() {
+    this.constructor();
+  }
+
   changeColor() {
     this.color++;
   }

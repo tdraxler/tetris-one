@@ -32,6 +32,9 @@ let game = (p) => {
   //   if (keyTimer === keyDelayTime) keyPressReady = true;
   // }, 10);
 
+  p.preload = () => {
+  };
+
   p.setup = () => {
     let startColors = darken(colors(1), 0.5);
     p.createCanvas(640, 480).parent('tetris-view');
@@ -58,7 +61,7 @@ let game = (p) => {
         gameBoard.drawGame(p, boardX, boardY);
         //Draw the player's tetromino & the preview of the next shape.
         player.draw(p, boardX, boardY);
-        player.draw(p, 25, 30, true);
+        player.draw(p, 25, 50, true);
         break;
       case 'line removal':
         drawGameArea(p, boardX, boardY);
@@ -68,13 +71,19 @@ let game = (p) => {
         break;
       case 'paused':
         drawGameArea(p, boardX, boardY);
-        p.fill(255);
-        p.text("PAUSED", boardX + 30, boardY + 50);
+        p.fill(255, 235, 225);
+        p.textSize(20);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text("PAUSED", boardX + 100, boardY + 150);
         break;
       case 'lost game':
         drawGameArea(p, boardX, boardY);
-        p.fill(255);
-        p.text("lmao git gud casul", boardX + 30, boardY + 50);
+        p.fill(255, 205, 180);
+        p.textSize(24);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text("GAME OVER", boardX + 100, boardY + 150);
+        p.textSize(16);
+        p.text("Final Score: " + GameState.score, boardX + 100, boardY + 180);
         break;
       case 'main menu':
         drawStartMenuDecorations(p);
@@ -85,7 +94,7 @@ let game = (p) => {
     }
 
     //Needs to see the level. If a level change is detected, the keyboard handler will change the input interval rate.
-    if (GameState.gameMode != 'main menu') keyboardHandler.checkKeys(p, player, gameBoard);
+    if (GameState.gameMode != 'main menu' && GameState.gameMode != 'lost game') keyboardHandler.checkKeys(p, player, gameBoard);
   };
 
 
@@ -95,6 +104,7 @@ let game = (p) => {
       GameState.changeGameMode('main menu');
       GameState.shouldRedraw = true;
       player.reset();
+      gameBoard.reset();
     }
     return false;
   }

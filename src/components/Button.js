@@ -8,17 +8,17 @@ export class Button {
   }
   draw(p) {
     if (this.checkForMouseOver(p)) {
-      if (p.mouseIsPressed) p.fill(220, 230, 255);
-      else p.fill(180, 190, 230);
+      if (p.mouseIsPressed) p.fill(255, 230, 220);
+      else p.fill(230, 190, 180);
     }
     else {
-      p.fill(150, 160, 190);
+      p.fill(190, 160, 150);
     }
-    p.stroke(30, 40, 60);
+    p.stroke(60, 40, 30);
     p.strokeWeight(3);
     p.rect(this.x, this.y, this.sizeX, this.sizeY, 4);
 
-    p.fill(30, 40, 60);
+    p.fill(60, 40, 30);
     p.textStyle(p.BOLD);
     p.textSize(16);
     p.noStroke();
