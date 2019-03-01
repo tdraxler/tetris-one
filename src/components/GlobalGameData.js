@@ -31,6 +31,10 @@ class GameState {
   changeGameMode(newMode) {
     switch(newMode) {
       case 'playing':
+        if (this.gameMode === 'main menu') {
+          let newColors = darken(colors(this.level + 1), 0.5);
+          this.p.background(newColors.red, newColors.green, newColors.blue);
+        }
         this.gameMode = 'playing';
         break;
       case 'line removal':
@@ -42,11 +46,12 @@ class GameState {
       case 'paused':
         this.gameMode = 'paused';
         break;
-      case 'menu':
-        this.gameMode = 'menu';
+      case 'main menu':
+        this.gameMode = 'main menu';
         this.p.background(40, 70, 130);
         break;
       default:
+        console.log("Invalid game mode selected. Defaulting to pausing the game.");
         this.gameMode = 'paused';
         break;
     }
