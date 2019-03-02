@@ -31,6 +31,10 @@ class GameState {
     this.p = null;
     this.shouldRedraw = false;
     this.tetrominoStats = new Array(7).fill(0);
+    this.gameOverFrame = 0;
+    this.destScene = 'main menu'; //There's a transition mode/scene. When that transition's going on,
+    //the GameState object needs to know what's coming next.
+    this.fadeFrame = 0;
   }
 
   bindComponents(p) {
@@ -42,6 +46,8 @@ class GameState {
     this.linesCleared = 0;
     this.score = 0;
     this.tetrominoStats = new Array(7).fill(0);
+    this.gameOverFrame = 0;
+    this.destScene = 'main menu';
   }
 
   levelUp() {
@@ -95,6 +101,7 @@ class GameState {
         this.gameMode = 'line removal';
         break;
       case 'lost game':
+        this.gameOverFrame = -50;
         this.gameMode = 'lost game';
         break;
       case 'paused':
@@ -104,6 +111,9 @@ class GameState {
         this.resetGame();
         this.gameMode = 'main menu';
         this.shouldRedraw = true;
+        break;
+      case 'transition':
+        this.gameMode = 'transition';
         break;
       default:
         console.log("Invalid game mode selected. Defaulting to pausing the game.");

@@ -213,9 +213,11 @@ export class GameScreen {
 
     if (this.coolDownTimer > 0) {
       for (var i = 0; i < this.coolDownBlocks.length; i++) {
-        p.fill(255, 210, 100, Math.floor(255 * this.coolDownTimer/30));
-        p.noStroke();
-        p.rect(boardX + 2 + this.coolDownBlocks[i][1]*20, boardY + 2 + this.coolDownBlocks[i][0]*20 - 80, 18, 18, 4);
+        if (this.coolDownBlocks[i][0] >= 4) {
+          p.fill(255, 210, 100, Math.floor(255 * this.coolDownTimer/30));
+          p.noStroke();
+          p.rect(boardX + 2 + this.coolDownBlocks[i][1]*20, boardY + 2 + this.coolDownBlocks[i][0]*20 - 80, 18, 18, 4);
+        }
       }
       this.coolDownTimer -= 2;
       //console.log(this.coolDownTimer);

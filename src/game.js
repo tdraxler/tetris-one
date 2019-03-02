@@ -9,7 +9,10 @@ import {
   drawGameArea, 
   drawStartMenuDecorations, 
   drawStartMenuTitleAndButton,
-  checkButtons
+  checkButtons,
+  drawGameOverElements,
+  drawFadeIn,
+  drawFadeOut
 } from './components/GuiComponents';
 import { colors, darken } from './components/Colors';
 
@@ -78,31 +81,46 @@ let game = (p) => {
         break;
       case 'lost game':
         drawGameArea(p, boardX, boardY);
-        p.fill(255, 205, 180);
-        p.textSize(24);
-        p.textAlign(p.CENTER, p.CENTER);
-        p.text("GAME OVER", boardX + 100, boardY + 150);
-        p.textSize(16);
-        p.text("Final Score: " + GameState.score, boardX + 100, boardY + 180);
+        gameBoard.drawGame(p, boardX, boardY);
+        drawGameOverElements(p, boardX, boardY);
         break;
       case 'main menu':
         drawStartMenuDecorations(p);
         drawStartMenuTitleAndButton(p);
         break;
+      case 'transition':
+        GameState.fadeFrame += 8;
+        drawFadeOut(p);
+        if (GameState.fadeFrame >= 300) {
+          GameState.changeGameMode(GameState.destScene);
+        }
       default:
         break;
     }
 
+    if (GameState.fadeFrame != 0 && GameState.gameMode != 'transition') {
+      drawFadeIn(p);
+      GameState.fadeFrame -= 8;
+      GameState.shouldRedraw = true;
+    } 
+
     //Needs to see the level. If a level change is detected, the keyboard handler will change the input interval rate.
-    if (GameState.gameMode != 'main menu' && GameState.gameMode != 'lost game') keyboardHandler.checkKeys(p, player, gameBoard);
+    if (GameState.gameMode != 'main menu' && GameState.gameMode != 'lost game' && GameState.gameMode != 'transition') keyboardHandler.checkKeys(p, player, gameBoard);
   };
 
 
   p.mouseClicked = () => {
-    if (GameState.gameMode === 'main menu' && checkButtons(p) === 'start the game') GameState.changeGameMode('playing');
+    if (GameState.gameMode === 'main menu' && checkButtons(p) === 'start the game') {
+      GameState.changeGameMode('transition');
+      GameState.fadeFrame = 0;
+      GameState.destScene = 'playing';
+      GameState.shouldRedraw = false;
+    }
     if (GameState.gameMode != 'main menu' && checkButtons(p) === 'back to menu') {
-      GameState.changeGameMode('main menu');
-      GameState.shouldRedraw = true;
+      GameState.changeGameMode('transition');
+      GameState.destScene = 'main menu';
+      GameState.fadeFrame = 0;
+      GameState.shouldRedraw = false;
       player.reset();
       gameBoard.reset();
     }

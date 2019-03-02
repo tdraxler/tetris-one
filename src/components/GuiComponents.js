@@ -9,6 +9,17 @@ let menuButton = new Button (20, 430, 100, 30, "End Game");
 let shapes = new Shapes();
 const colorSet = darken(colors(0));
 
+const endGameMessages = [
+  "You might need some more practice!",
+  "Not bad",
+  "Pretty good",
+  "Nice job!",
+  "Impressive!",
+  "Fantastic!",
+  "How did you do that?",
+  "Are you even human?"
+];
+
 
 const drawGameArea = (p, boardX, boardY) => {
     //Gameplay area
@@ -82,6 +93,67 @@ const drawStartMenuTitleAndButton = (p) => {
   startButton.draw(p);
 }
 
+const drawGameOverElements = (p, boardX, boardY) => {
+
+  if (GameState.gameOverFrame >= 0) {
+    p.stroke(255, 120, 50);
+    p.strokeWeight(2);
+    if (GameState.gameOverFrame < 3) p.fill(255, 230, 220);
+    else p.fill(10, 30, 15, GameState.gameOverFrame * 2);
+    p.rect(boardX, boardY, 202, 402, 5);
+  
+    p.fill(255, 205, 180, 255 * (GameState.gameOverFrame / 100));
+    p.stroke(255, 120, 50, 255 * (GameState.gameOverFrame / 100));
+    p.textSize(24);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text("GAME OVER", boardX + 100, boardY + 50 + GameState.gameOverFrame);
+    p.textSize(16);
+    p.text("Final Score: " + GameState.score, boardX + 100, boardY + 280 - GameState.gameOverFrame);
+  
+    p.fill(10, 30, 15);
+    p.rect(-2, boardY + 320 - (GameState.gameOverFrame / 4), 644, GameState.gameOverFrame / 2);
+  }
+
+  let sc = GameState.score;
+
+
+
+  if (GameState.gameOverFrame < 100) {
+    GameState.gameOverFrame += 2;
+    //GameState.shouldRedraw = true;
+  }
+  if (GameState.gameOverFrame >= 100) {
+    p.textSize(18);
+    p.fill(255);
+    if (sc < 1000) p.text(endGameMessages[0], boardX + 100, boardY + 320);
+    else if (sc >= 1000 && sc < 3000) p.text(endGameMessages[1], boardX + 100, boardY + 320);
+    else if (sc >= 3000 && sc < 6000) p.text(endGameMessages[2], boardX + 100, boardY + 320);
+    else if (sc >= 6000 && sc < 15000) p.text(endGameMessages[3], boardX + 100, boardY + 320);
+    else if (sc >= 15000 && sc < 30000) p.text(endGameMessages[4], boardX + 100, boardY + 320);
+    else if (sc >= 30000 && sc < 60000) p.text(endGameMessages[5], boardX + 100, boardY + 320);
+    else if (sc >= 60000 && sc < 120000) p.text(endGameMessages[6], boardX + 100, boardY + 320);
+    else p.text(endGameMessages[7], boardX + 100, boardY + 320);
+  }
+};
+
+const drawFadeIn = (p) => {
+  let counter = 0;
+  let squareSize = 32 * (GameState.fadeFrame / 300)
+  for (var y = 0; y < 15; y++) {
+    for (var x = 0; x < 20; x++) {
+      p.fill(30, 15, 25);
+      p.noStroke();
+      p.rect(x * 32, y * 32, squareSize, squareSize);
+      counter++;
+      if (counter >= GameState.fadeFrame) return;
+    }
+  }
+};
+
+const drawFadeOut = (p) => {
+  drawFadeIn(p);
+};
+
 const checkButtons = (p) => {
   if (startButton.checkMouseClickComplete(p)) return 'start the game';
   if (menuButton.checkMouseClickComplete(p)) return 'back to menu';
@@ -89,4 +161,12 @@ const checkButtons = (p) => {
   return 'no action';
 }
 
-export { drawGameArea, drawStartMenuDecorations, drawStartMenuTitleAndButton, checkButtons };
+export { 
+  drawGameArea, 
+  drawStartMenuDecorations, 
+  drawStartMenuTitleAndButton, 
+  drawGameOverElements,
+  drawFadeIn,
+  drawFadeOut,
+  checkButtons
+};

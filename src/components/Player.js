@@ -24,13 +24,15 @@ export class Player {
     this.colorMap = colors(0);
 
     this.pausedGravity = false;
+
+    this.lockDelay = 1; //We delay the locking of tetrominos a bit to give the player time to decide on things.
   }
 
   reset() {
     this.constructor();
   }
 
-  move(board, dir="down") {
+  move(board, dir="down", causedByPlayer=true) {
 
 
     if (GameState.gameMode = 'playing') {
@@ -43,8 +45,12 @@ export class Player {
             this.y++;
             board.softDropCount();
           } else {
-            board.imprintShape(this.block, this.rotate, this.x, this.y, this.blockDesign);
-            this.newTetro(board);
+            if (this.lockDelay > 0 && causedByPlayer === false) {
+              this.lockDelay--;
+            } else {
+              board.imprintShape(this.block, this.rotate, this.x, this.y, this.blockDesign);
+              this.newTetro(board);
+            }
           }
           break;
         case "left":
@@ -105,6 +111,7 @@ export class Player {
     this.rotate = 0;
     this.block = this.nextBlock;
     this.nextBlock = tetrominoChooser.giveMeTheNextTetromino();
+    this.lockDelay = 1;
 
     //Check to see if there's already a collision with dead tetrominos. If so, lose the game.
     let tetromino = shape.giveShape(this.block, this.rotate);
