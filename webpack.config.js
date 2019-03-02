@@ -19,7 +19,8 @@ module.exports = {
             loader: 'babel-loader',
             test: /\.js$/,
             exclude: /node_modules/
-        }, {
+        }, 
+        {
             test: /\.s?css$/,
             //'use' lets you use an array of loaders, rather than just a single one.
             use: [
@@ -27,7 +28,14 @@ module.exports = {
                 'css-loader',
                 'sass-loader'
             ]
-        }],
+        },
+        {
+            test: /\.wav$/,
+            use: [
+                'file-loader'
+            ]
+        }
+        ],
     },
     //source mapping means we can debug more easily.
     devtool: 'cheap-module-eval-source-map',

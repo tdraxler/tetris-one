@@ -1,5 +1,6 @@
 import GameState from './GlobalGameData';
 
+
 //So each key in the game gets its own key input timer (to check for repeat key presses)
 //Because there's an array of keyboard timers, 
 const keyMap = {
@@ -8,7 +9,7 @@ const keyMap = {
   2: 39, //right
   3: 32, //space (or whatever is being used for the rotate key)
   4: 13, //Enter (for pausing)
-  5: 80, //p - debug pause gravity
+  5: 38 //up arrow - alternate rotate key
 };
 
 const trackedKeys = 6;
@@ -25,10 +26,6 @@ for (var i = 0; i < trackedKeys; i++) {
     //for this key until it's released.
   });
 }
-
-// for (var i = 0; i < trackedKeys; i++) {
-//   console.log("Setting up keyHandlers index " + i);
-//   console.log(i);
 
 setInterval(() => {
   keyHandlers.forEach((handler) => {
@@ -54,6 +51,7 @@ const actionMap = (act, playerObject, gameBoard) => {
       playerObject.rotateShape(gameBoard);
       break;
     case 4:
+      GameState.select.play();
       if (GameState.gameMode === 'playing') {
         GameState.changeGameMode('paused');
         playerObject.pausedGravity = true;
@@ -64,7 +62,7 @@ const actionMap = (act, playerObject, gameBoard) => {
       }
       break;
     case 5:
-      playerObject.pausedGravity = !playerObject.pausedGravity;
+      playerObject.rotateShape(gameBoard);
       break;
     default:
       console.log("Invalid action");
@@ -75,16 +73,6 @@ const actionMap = (act, playerObject, gameBoard) => {
 
 export class KeyboardHandler {
   constructor() {
-    console.log(keyHandlers);
-    //TODO:
-    //Set up a recursive setTimeout function that depends on the level.
-    //Upon a level change, the game will change the interval time.
-    //The soft drop rate depends on the level.
-
-    //This needs to see the *level* variable.
-
-    //Also, the keyboard needs to know if the level has been changed and if the player has a brand new tetromino.
-    //If so, set keytimer to a very negative value for the drop key.
   }
 
   checkKeys(p, playerObject, gameBoard) {

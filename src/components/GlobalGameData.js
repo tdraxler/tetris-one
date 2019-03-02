@@ -1,6 +1,7 @@
 //The powerful main game class. Meant to be accessible from any module that needs it.
 //Ideally should be pretty lean though.
 import { colors, darken } from './Colors';
+import { Howl } from 'howler';
 
 
 const mainMenuBackground = [
@@ -27,6 +28,8 @@ class GameState {
     this.level = 0;
     this.linesCleared = 0;
     this.score = 0;
+    //How does scoring work? I got my info from here:
+    //https://tetris.fandom.com/wiki/Scoring
     this.gameMode = 'playing';
     this.p = null;
     this.shouldRedraw = false;
@@ -35,6 +38,38 @@ class GameState {
     this.destScene = 'main menu'; //There's a transition mode/scene. When that transition's going on,
     //the GameState object needs to know what's coming next.
     this.fadeFrame = 0;
+
+    this.bump = null;
+    this.gameOver = null;
+    this.lineClear = null;
+    this.move = null;
+    this.rotate = null;
+    this.select = null;
+    this.superClear = null;
+  }
+
+  loadSounds() {
+    this.bump = new Howl({
+      src: ['../sounds/Bump.wav'],
+    });
+    this.gameOver = new Howl({
+      src: ['../sounds/GameOver.wav'],
+    });
+    this.lineClear = new Howl({
+      src: ['../sounds/LineClear.wav'],
+    });
+    this.move = new Howl({
+      src: ['../sounds/Move.wav'],
+    });
+    this.rotate = new Howl({
+      src: ['../sounds/Rotate.wav'],
+    });
+    this.select = new Howl({
+      src: ['../sounds/Select.wav'],
+    });
+    this.superClear = new Howl({
+      src: ['../sounds/SuperClear.wav'],
+    });
   }
 
   bindComponents(p) {
@@ -101,6 +136,7 @@ class GameState {
         this.gameMode = 'line removal';
         break;
       case 'lost game':
+        this.gameOver.play();
         this.gameOverFrame = -50;
         this.gameMode = 'lost game';
         break;

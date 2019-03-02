@@ -80,8 +80,6 @@ const drawStartMenuDecorations = (p) => {
 const drawStartMenuTitleAndButton = (p) => {
   p.fill(255);
   p.strokeWeight(1);
-
-  p.textFont('Righteous');
   p.textStyle(p.BOLD);
   p.textSize(50);
   p.noStroke();

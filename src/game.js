@@ -1,7 +1,6 @@
 import * as p5 from './p5.min.js';
 import GameScreen from './components/GameScreen';
 import Player from './components/Player';
-import Shapes from './components/Shapes';
 import KeyboardHandler from './components/KeyboardHandler';
 import GameState from './components/GlobalGameData';
 import { gravityDrop, dropIntervals } from './components/Gravity';
@@ -36,10 +35,12 @@ let game = (p) => {
   // }, 10);
 
   p.preload = () => {
+    GameState.loadSounds();
   };
 
   p.setup = () => {
     let startColors = darken(colors(1), 0.5);
+    p.textFont('Righteous');
     p.createCanvas(640, 480).parent('tetris-view');
     p.background(startColors.red, startColors.green, startColors.blue);
     setTimeout(gravityDrop, dropIntervals(GameState.level), player, gameBoard);
@@ -111,12 +112,14 @@ let game = (p) => {
 
   p.mouseClicked = () => {
     if (GameState.gameMode === 'main menu' && checkButtons(p) === 'start the game') {
+      GameState.select.play();
       GameState.changeGameMode('transition');
       GameState.fadeFrame = 0;
       GameState.destScene = 'playing';
       GameState.shouldRedraw = false;
     }
     if (GameState.gameMode != 'main menu' && checkButtons(p) === 'back to menu') {
+      GameState.select.play();
       GameState.changeGameMode('transition');
       GameState.destScene = 'main menu';
       GameState.fadeFrame = 0;

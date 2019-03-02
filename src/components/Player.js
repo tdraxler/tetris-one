@@ -54,10 +54,22 @@ export class Player {
           }
           break;
         case "left":
-          if (!this.collisionDetected(tetromino, board, -1, 0)) this.x--;
+          if (!this.collisionDetected(tetromino, board, -1, 0)) {
+            this.x--;
+            GameState.move.play();
+          }
+          else {
+            GameState.bump.play();
+          }
           break;
         case "right":
-          if (!this.collisionDetected(tetromino, board, +1, 0)) this.x++;
+          if (!this.collisionDetected(tetromino, board, +1, 0)) {
+            GameState.move.play();
+            this.x++;
+          }
+          else {
+            GameState.bump.play();
+          }
           break;
         default:
           break;
@@ -80,24 +92,18 @@ export class Player {
   }
 
   rotateShape(board) {
-    // //First, check for a collision with the possible new shape.
-    // let nextRot = this.rotate - 1 < 0 ? 3 : this.rotate - 1;
-    // let nextShape = shape.giveShape(this.block, nextRot);
 
-    // //Have to offset the next x, y values if there's a rotation.
-    // let tempX = (nextRot === 1 || nextRot === 3) ? -1 : 1;
-    // let tempY = (nextRot === 1 || nextRot === 3) ? 1 : -1;
     let newValues = shape.getRotateOffsetCoords(this.block, this.rotate);
-    //console.log(newValues);
     let nextShape = shape.giveShape(this.block, newValues[0]);
 
     if (this.rotate != newValues[0] && !this.collisionDetected(nextShape, board, newValues[1], newValues[2]) ) {
       this.rotate = newValues[0];
       this.x += newValues[1];
       this.y += newValues[2];
+      GameState.rotate.play();
     }
     else {
-      //
+      GameState.bump.play();
     }
 
   }
@@ -159,16 +165,6 @@ export class Player {
       }
     }
   }
-
-  //TODO:
-  //Player moves (gravity drop) depending on level
-
-  //If a new tetromino happens and it CAN'T be placed (because of a dead tetromino already there), end the game.
-  //To end the game, what does this class need to be able to see and use?
-  //-The board
-  //-It needs to be able to call some sort of 'Game Over' Function that will cause the game mode to change. (and go back
-  //to a main menu)
-
 };
 
 export default Player;

@@ -9,11 +9,7 @@ export class GameScreen {
 
   constructor() {
     this.board = new Array(24).fill(0);
-    //this.level = 0;
-    //this.score = 0;
-    //this.linesCleared = 0;
-    //How does scoring work? I got my info from here:
-    //https://tetris.fandom.com/wiki/Scoring
+
     this.softDropCounter = 0;
     //What is soft dropping? It's when the player presses the down arrow (or some assigned key)
     //to drop the tetromino faster. The player gets a small bonus to their score when they do this.
@@ -56,6 +52,7 @@ export class GameScreen {
       }
     }
     GameState.tetrominoStats[index] += 1;
+    GameState.bump.play();
     //Then see if any lines need to be removed.
     this.quickFilledLinesCheck();
     GameState.addToScore(Math.floor(this.softDropCounter / 2));
@@ -96,7 +93,6 @@ export class GameScreen {
     this.removalProgress += 2;
     if (this.removalProgress > 43) {
       this.checkAndRemoveLines();
-      console.log("Completed a line removal with progress at " + this.removalProgress);
       this.removalProgress = 0;
       GameState.changeGameMode('playing');
     }
@@ -114,6 +110,8 @@ export class GameScreen {
       GameState.linesCleared += this.linesToClear.length;
       if (GameState.linesCleared >= (GameState.level + 1) * 10) this.changeLevel(GameState.level + 1);
       this.removalProgress = 0;
+      if (this.linesToClear.length === 4) GameState.superClear.play();
+      else GameState.lineClear.play();
       GameState.changeGameMode('line removal');
     }
   }
@@ -161,8 +159,6 @@ export class GameScreen {
       }
     }
     this.increaseScore(clearedLines);
-    console.log("Cleared " + clearedLines + " lines.");
-
   }
 
   increaseScore(clearedLines) {
@@ -220,7 +216,6 @@ export class GameScreen {
         }
       }
       this.coolDownTimer -= 2;
-      //console.log(this.coolDownTimer);
     }
   }
 };
