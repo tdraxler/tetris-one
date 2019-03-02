@@ -47,6 +47,16 @@ export class Shapes {
         [0, 0], 
       ],
     ];
+
+    this.offset = [ //offset values for displaying a preview of the shape. [x,y] pairs
+      [10, 0],
+      [0,0],
+      [0,0],
+      [10,10],
+      [0,0],
+      [0,0],
+      [0,0],
+    ];
   };
 
   giveShape = (index=0, rotation=0) => {

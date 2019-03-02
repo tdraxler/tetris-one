@@ -30,6 +30,7 @@ class GameState {
     this.gameMode = 'playing';
     this.p = null;
     this.shouldRedraw = false;
+    this.tetrominoStats = new Array(7).fill(0);
   }
 
   bindComponents(p) {
@@ -40,6 +41,7 @@ class GameState {
     this.level = 0;
     this.linesCleared = 0;
     this.score = 0;
+    this.tetrominoStats = new Array(7).fill(0);
   }
 
   levelUp() {

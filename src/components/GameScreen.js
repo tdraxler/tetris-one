@@ -55,6 +55,7 @@ export class GameScreen {
         }
       }
     }
+    GameState.tetrominoStats[index] += 1;
     //Then see if any lines need to be removed.
     this.quickFilledLinesCheck();
     GameState.addToScore(Math.floor(this.softDropCounter / 2));

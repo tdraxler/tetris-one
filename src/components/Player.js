@@ -131,11 +131,10 @@ export class Player {
     let tetromino = shape.giveShape((drawNext ? this.nextBlock : this.block), (drawNext ? 1 : this.rotate));
 
     if (drawNext === true) {
-      let xOffset = this.block === 2 ? 10: 0; //Offset the x draw value different if we've got the long tetromino
       for (var y = 0; y < tetromino.length; y++) {
         for (var x = 0; x < tetromino[y].length; x++) {
           if (tetromino[y][x] != 0) {
-            squareDraw(p, boardX + x*20 + xOffset, boardY + y*20, this.colorMap, 0);
+            squareDraw(p, boardX + x*20 + shape.offset[this.nextBlock][0], boardY + y*20 + shape.offset[this.nextBlock][1], this.colorMap, 0);
           }
         }
       }

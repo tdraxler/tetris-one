@@ -1,42 +1,42 @@
 import { getRandomInt } from './Random';
 
 let colorsArr = [
-  { //player
+  { //player - Orange
     red: 160,
     green: 100,
     blue: 30
   },
-  { //level 0 blocks
+  { //level 0 blocks - Greenish
     red: 35,
     green: 130,
     blue: 60
   },
-  { //level 1 blocks
+  { //level 1 blocks - Blue
     red: 40,
     green: 80,
     blue: 190
   },
-  { //level 2 blocks
+  { //level 2 blocks - Grey with a slight pink tint
     red: 120,
     green: 100,
     blue: 140
   },
-  { //level 3 blocks
+  { //level 3 blocks - A color close to Cyan
     red: 40,
     green: 130,
     blue: 160
   },
-  { //level 4 blocks
+  { //level 4 blocks - Reddish/Brown
     red: 190,
     green: 70,
     blue: 30
   },  
-  { //level 5 blocks
+  { //level 5 blocks - A slightly yellow grey
     red: 140,
     green: 160,
     blue: 110
   },
-  { //level 6 blocks
+  { //level 6 blocks - Yellowish
     red: 160,
     green: 120,
     blue: 40
