@@ -41,5 +41,5 @@ module.exports = {
     //source mapping means we can debug more easily.
     //devtool: 'cheap-module-eval-source-map',
     //This makes webpack watch for changes and rebuild as necessary.
-    watch: true
+    //watch: true
 }

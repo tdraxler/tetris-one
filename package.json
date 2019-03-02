@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node public/server.js",
-    "build": "webpack"
+    "build": "webpack",
+    "heroku-postbuild": "webpack"
   },
   "author": "Thomas Draxler",
   "license": "ISC",
