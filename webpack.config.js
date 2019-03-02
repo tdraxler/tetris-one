@@ -12,7 +12,7 @@ module.exports = {
         filename: "[name].js"
     },
     //Using development mode for now until things are more complete
-    mode: "development",
+    mode: "production",
     //Next, rules to follow for files within
     module: {
         rules: [{
@@ -37,8 +37,9 @@ module.exports = {
         }
         ],
     },
+    //uncomment if using development mode.
     //source mapping means we can debug more easily.
-    devtool: 'cheap-module-eval-source-map',
+    //devtool: 'cheap-module-eval-source-map',
     //This makes webpack watch for changes and rebuild as necessary.
     watch: true
 }

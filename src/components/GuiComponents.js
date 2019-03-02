@@ -75,10 +75,20 @@ const drawGameArea = (p, boardX, boardY) => {
 const drawStartMenuDecorations = (p) => {
   //To do: Add any other decorations, if necessary.
   //If not, this method should be removed.
+  p.fill(255, 235, 225);
+  p.textSize(25);
+  p.noStroke();
+  p.textAlign(p.CENTER, p.CENTER);
+  p.strokeWeight(1);
+  p.stroke(30);
+  p.text("Directions:", 320, 200);
+  p.textSize(18);
+  p.text("Move: left/right arrow keys", 320, 230);
+  p.text("Rotate: up arrow key or spacebar", 320, 250);
+  p.text("Drop: down arrow key", 320, 270);
 }
 
 const drawStartMenuTitleAndButton = (p) => {
-  p.fill(255);
   p.strokeWeight(1);
   p.textStyle(p.BOLD);
   p.textSize(50);

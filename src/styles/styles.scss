@@ -1,6 +1,26 @@
 @import './base/settings';
 @import './base/base';
 
-#app {
-    font-family: 'Audiowide', cursive;
+html {
+    background-color: rgb(208, 206, 224);
+    font-family: sans-serif;
+}
+
+#tetris-view {
+    margin: 0 auto;
+    width: 640px;
+    height: 480px;
+    border: 2px solid rgb(89, 87, 122);
+}
+
+.title-text {
+    color: rgb(74, 74, 100);
+    text-align: center;
+    font-size: 2em;
+}
+
+.title-bar {
+    background-color: rgb(171, 168, 189);
+    padding: 1px;
+    margin-bottom: 10px;
 }

@@ -8,8 +8,9 @@ console.log("The app is running...");
 const AppGateway = () => {
   return (
     <div>
-      <h1>Tetris Experiment 1</h1>
-      <p>...</p>
+      <div className="title-bar">
+        <h1 className="title-text">Tetris Experiment 1</h1>
+      </div>
       <div id="tetris-view"></div>
     </div>
   );
