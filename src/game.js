@@ -66,6 +66,7 @@ let game = (p) => {
         //Draw the player's tetromino & the preview of the next shape.
         player.draw(p, boardX, boardY);
         player.draw(p, 25, 50, true);
+        GameState.shouldRedraw = false; //Might be needed, but I need to perform more testing to be sure.
         break;
       case 'line removal':
         drawGameArea(p, boardX, boardY);
@@ -88,6 +89,7 @@ let game = (p) => {
       case 'main menu':
         drawStartMenuDecorations(p);
         drawStartMenuTitleAndButton(p);
+        GameState.shouldRedraw = true;
         break;
       case 'transition':
         GameState.fadeFrame += 8;

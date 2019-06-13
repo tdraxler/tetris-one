@@ -2,6 +2,7 @@ node_modules
 bundle.js
 p5.min.js
 p5.sound.min.js
+.DS_Store
 
 **/public/game.js
 **/public/app.js
