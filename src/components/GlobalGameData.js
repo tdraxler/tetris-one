@@ -121,6 +121,7 @@ class GameState {
         }
       }
     }
+    console.log("Had to redraw for some reason.");
     this.shouldRedraw = false;
   }
 
